@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShakeForm 예시: 커스텀 CSS 주입</title>
+    <script src="../shakeForm.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>커스텀 CSS 주입 (Advanced)</h1>
+        <p>
+            <code>applyCustomCSS</code> API를 사용하여 Shadow DOM 내부에 직접 CSS를 주입하는 예시입니다. 입력 필드 포커스 시 애니메이션 효과나 그라데이션 버튼 등 세밀한 디자인 제어가 가능합니다.
+        </p>
+
+        <shake-form id="custom-css-form" title="스타일리쉬한 폼" submit-text="전송"></shake-form>
+    </div>
+
+    <script>
+        const customCssForm = document.getElementById('custom-css-form');
+
+        const customCSS = `
+          /* 입력 필드 포커스 시 확대 애니메이션 */
+          .form-input:focus, .form-textarea:focus {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.2);
+          }
+
+          /* 그라데이션 버튼과 호버 효과 */
+          .form-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: transform 0.2s, box-shadow 0.2s;
+          }
+          .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+          }
+        `;
+
+        customCssForm.applyCustomCSS(customCSS);
+
+        customCssForm.setFields([
+            { name: 'username', label: '사용자 이름', type: 'text', required: true },
+            { name: 'feedback', label: '피드백', type: 'textarea', required: true },
+        ]);
+
+        customCssForm.addEventListener('formsubmit', (e) => {
+            alert('피드백을 보내주셔서 감사합니다!');
+        });
+    </script>
+</body>
+</html>

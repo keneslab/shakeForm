@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShakeForm 예시: 테마 시스템</title>
+    <script src="../shakeForm.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .controls {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 10px;
+        }
+        .controls button {
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .controls button:hover {
+            background-color: #e9ecef;
+        }
+        .controls button.active {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>테마 시스템 (Beginner)</h1>
+        <p>
+            버튼을 클릭하여 폼의 테마를 'Light', 'Dark'로 변경하거나, 현재 사용자의 시스템 설정을 따르는 'Auto' 모드로 설정할 수 있습니다.
+        </p>
+
+        <div class="controls">
+          <button id="btn-light" class="active">☀️ Light</button>
+          <button id="btn-dark">🌙 Dark</button>
+          <button id="btn-auto">🔄 Auto</button>
+        </div>
+
+        <shake-form id="theme-form" title="테마 변경 테스트" submit-text="확인"></shake-form>
+    </div>
+
+    <script>
+        const themeForm = document.getElementById('theme-form');
+        const buttons = {
+            light: document.getElementById('btn-light'),
+            dark: document.getElementById('btn-dark'),
+            auto: document.getElementById('btn-auto'),
+        };
+
+        themeForm.setFields([
+            { name: 'name', label: '이름', type: 'text', required: true },
+            { name: 'email', label: '이메일', type: 'email', required: true },
+        ]);
+
+        function setActiveButton(theme) {
+            Object.values(buttons).forEach(btn => btn.classList.remove('active'));
+            if (buttons[theme]) {
+                buttons[theme].classList.add('active');
+            }
+        }
+
+        function changeTheme(theme) {
+            themeForm.setTheme(theme);
+            setActiveButton(theme);
+        }
+
+        buttons.light.addEventListener('click', () => changeTheme('light'));
+        buttons.dark.addEventListener('click', () => changeTheme('dark'));
+        buttons.auto.addEventListener('click', () => changeTheme('auto'));
+
+        // 초기 상태 설정
+        setActiveButton('light');
+
+        themeForm.addEventListener('formsubmit', (e) => {
+            alert('폼이 제출되었습니다!');
+        });
+    </script>
+</body>
+</html>

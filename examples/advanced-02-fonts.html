@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShakeForm 예시: 실시간 폰트 변경</title>
+    <script src="../shakeForm.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .controls {
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .controls button {
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+        }
+        .controls button:hover {
+            background-color: #e9ecef;
+        }
+        .controls button.active {
+            background-color: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+        .font-group {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        .font-group h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+
+        /* 웹 폰트 정의 */
+        @font-face {
+            font-family: 'UhBee Ann';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_five@.2.0/UhBeeann.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Hangyore';
+            src: url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/hani/Hankc/Hankc.woff2') format('woff2'),
+                 url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/hani/Hankc/Hankc.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <h1>실시간 폰트 변경 (Advanced)</h1>
+        <p>
+            버튼을 클릭하여 Google Fonts와 외부 웹 폰트를 실시간으로 로드하고 폼에 적용하는 예시입니다. 다양한 한글 폰트를 테스트해볼 수 있습니다.
+        </p>
+
+        <div class="controls">
+            <div class="font-group">
+                <h3>Google Fonts</h3>
+                <button id="btn-noto-serif" class="font-btn">Noto Serif KR</button>
+                <button id="btn-black-han-sans" class="font-btn">Black Han Sans</button>
+                <button id="btn-dongle" class="font-btn">Dongle</button>
+            </div>
+            <div class="font-group">
+                <h3>일반 웹 폰트 (CDN)</h3>
+                <button id="btn-pretendard" class="font-btn">Pretendard</button>
+                <button id="btn-uhbee-ann" class="font-btn">어비 앤체 (필기체)</button>
+                <button id="btn-hangyore" class="font-btn">한겨레결체 (붓글씨)</button>
+            </div>
+        </div>
+
+        <shake-form id="realtime-font-form" title="폰트 테스트 폼" submit-text="완료"></shake-form>
+    </div>
+
+    <script>
+        const fontForm = document.getElementById('realtime-font-form');
+
+        // 각 버튼 요소를 ID로 가져옵니다.
+        const btnNotoSerif = document.getElementById('btn-noto-serif');
+        const btnBlackHanSans = document.getElementById('btn-black-han-sans');
+        const btnDongle = document.getElementById('btn-dongle');
+        const btnPretendard = document.getElementById('btn-pretendard');
+        const btnUhbeeAnn = document.getElementById('btn-uhbee-ann');
+        const btnHangyore = document.getElementById('btn-hangyore');
+
+        fontForm.setFields([
+            { name: 'name', label: '이름', type: 'text', required: true },
+            { name: 'message', label: '메시지', type: 'textarea', placeholder: '폰트가 적용된 모습을 확인하세요.' }
+        ]);
+
+        // --- Google Fonts 버튼 이벤트 리스너 ---
+        btnNotoSerif.addEventListener('click', (event) => {
+            document.querySelectorAll('.font-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            fontForm.loadGoogleFont('Noto Serif KR', [200, 300, 400, 500, 600, 700, 900]);
+        });
+
+        btnBlackHanSans.addEventListener('click', (event) => {
+            document.querySelectorAll('.font-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            fontForm.loadGoogleFont('Black Han Sans', [400]);
+        });
+
+        btnDongle.addEventListener('click', (event) => {
+            document.querySelectorAll('.font-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            fontForm.loadGoogleFont('Dongle', [300, 400, 700]);
+        });
+
+        // --- 일반 웹 폰트 버튼 이벤트 리스너 ---
+        btnPretendard.addEventListener('click', (event) => {
+            document.querySelectorAll('.font-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            fontForm.loadWebFont('Pretendard', 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+        });
+
+        btnUhbeeAnn.addEventListener('click', (event) => {
+            document.querySelectorAll('.font-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            // 폰트가 이미 @font-face로 정의되어 있으므로 직접 적용
+            fontForm.style.setProperty('--font-family', '"UhBee Ann", sans-serif');
+        });
+
+        btnHangyore.addEventListener('click', (event) => {
+            document.querySelectorAll('.font-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            // 폰트가 이미 @font-face로 정의되어 있으므로 직접 적용
+            fontForm.style.setProperty('--font-family', '"Hangyore", serif');
+        });
+
+        // 초기 폰트 설정 (페이지 로드 시 Noto Serif KR 버튼 클릭)
+        btnNotoSerif.click();
+
+        fontForm.addEventListener('formsubmit', (e) => {
+            alert('폼이 제출되었습니다.');
+        });
+    </script>
+</body>
+</html>

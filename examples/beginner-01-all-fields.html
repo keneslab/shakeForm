@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShakeForm 예시: 모든 필드 타입</title>
+    <script src="../shakeForm.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        shake-form {
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>모든 필드 타입 (Beginner)</h1>
+        <p>
+            <code>shake-form</code>에서 사용할 수 있는 모든 종류의 필드(text, email, tel, select, radio, checkbox, textarea)를 포함한 종합적인 폼 예시입니다.
+        </p>
+
+        <shake-form id="full-form" title="종합 신청서" submit-text="신청서 제출하기"></shake-form>
+    </div>
+
+    <script>
+      const fullForm = document.getElementById('full-form');
+
+      const allFields = [
+        { name: 'fullName', label: '성명', type: 'text', required: true, placeholder: '홍길동' },
+        { name: 'email', label: '이메일', type: 'email', required: true, placeholder: 'example@email.com' },
+        { name: 'phone', label: '연락처', type: 'tel', placeholder: '010-1234-5678' },
+        {
+          name: 'inquiryType',
+          label: '문의 유형',
+          type: 'select',
+          required: true,
+          options: [
+            { value: '', label: '유형을 선택하세요', disabled: true },
+            { value: 'product', label: '제품 문의' },
+            { value: 'service', label: '서비스 문의' },
+            { value: 'support', label: '기술 지원' },
+            { value: 'other', label: '기타' }
+          ]
+        },
+        {
+          name: 'experience',
+          label: '경력',
+          type: 'radio',
+          required: true,
+          options: [
+            { value: 'entry', label: '신입' },
+            { value: 'junior', label: '주니어 (1-3년)' },
+            { value: 'senior', label: '시니어 (3년 이상)' }
+          ]
+        },
+        {
+          name: 'interests',
+          label: '관심 분야 (다중 선택)',
+          type: 'checkbox',
+          options: [
+            { value: 'frontend', label: '프론트엔드' },
+            { value: 'backend', label: '백엔드' },
+            { value: 'devops', label: '데브옵스' },
+            { value: 'ai', label: '인공지능' }
+          ]
+        },
+        {
+          name: 'message',
+          label: '문의 내용',
+          type: 'textarea',
+          required: true,
+          placeholder: '문의 내용을 자세히 입력해주세요.',
+          style: 'min-height: 150px;'
+        }
+      ];
+
+      fullForm.setFields(allFields);
+
+      fullForm.addEventListener('formsubmit', (e) => {
+        alert('폼이 제출되었습니다! 콘솔을 확인하세요.');
+        console.log(e.detail);
+      });
+    </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShakeForm 예시: 동적 제어</title>
+    <script src="../shakeForm.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .controls {
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .controls button {
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .controls button:hover {
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>동적 제어 (Advanced)</h1>
+        <p>
+            버튼 클릭과 같은 사용자 상호작용에 따라 폼의 제목을 바꾸거나, 새로운 필드를 추가하고, 폼 전체를 초기화하는 등 동적으로 폼을 제어하는 예시입니다.
+        </p>
+
+        <div class="controls">
+            <button id="change-title-btn">제목 변경</button>
+            <button id="add-field-btn">필드 추가</button>
+            <button id="reset-btn">폼 리셋</button>
+        </div>
+
+        <shake-form id="dynamic-form" title="동적 폼" submit-text="제출"></shake-form>
+    </div>
+
+    <script>
+      const dynamicForm = document.getElementById('dynamic-form');
+
+      let fields = [
+        { name: 'name', label: '이름', type: 'text', required: true }
+      ];
+      dynamicForm.setFields(fields);
+
+      // 제목 변경
+      document.getElementById('change-title-btn').addEventListener('click', () => {
+        dynamicForm.setAttribute('title', '새로운 제목 ' + new Date().toLocaleTimeString());
+      });
+
+      // 필드 추가
+      document.getElementById('add-field-btn').addEventListener('click', () => {
+        const newField = {
+          name: 'field' + (fields.length + 1),
+          label: '추가된 필드 ' + (fields.length + 1),
+          type: 'text'
+        };
+        fields.push(newField);
+        dynamicForm.setFields(fields); // setFields를 다시 호출하여 폼을 갱신
+      });
+
+      // 폼 리셋
+      document.getElementById('reset-btn').addEventListener('click', () => {
+        dynamicForm.reset();
+      });
+
+      dynamicForm.addEventListener('formsubmit', (e) => {
+        alert('폼이 제출되었습니다.');
+        console.log(e.detail);
+      });
+    </script>
+</body>
+</html>

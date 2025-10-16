@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShakeForm 예시: 필드 레이아웃</title>
+    <script src="../shakeForm.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>필드 레이아웃 (Advanced)</h1>
+        <p>
+            필드 객체의 <code>width</code> 속성을 사용하여 2열 레이아웃을 구성하는 예시입니다. <code>calc()</code> 함수를 활용하여 폼 내부의 간격(gap)을 정밀하게 계산합니다.
+        </p>
+
+        <shake-form id="layout-form" title="정보 입력" submit-text="저장"></shake-form>
+    </div>
+
+    <script>
+        const layoutForm = document.getElementById('layout-form');
+
+        const layoutFields = [
+          {
+            name: 'firstName',
+            label: '성 (First Name)',
+            type: 'text',
+            required: true,
+            width: 'calc(50% - 8px)' // 폼 내부 gap(16px)의 절반을 뺌
+          },
+          {
+            name: 'lastName',
+            label: '이름 (Last Name)',
+            type: 'text',
+            required: true,
+            width: 'calc(50% - 8px)'
+          },
+          {
+            name: 'email',
+            label: '이메일',
+            type: 'email',
+            required: true,
+            width: '100%' // 너비를 100%로 설정하여 단독 라인 차지
+          },
+          {
+            name: 'address',
+            label: '주소',
+            type: 'text',
+            required: true,
+            width: '100%'
+          }
+        ];
+
+        layoutForm.setFields(layoutFields);
+
+        layoutForm.addEventListener('formsubmit', (e) => {
+            alert('정보가 저장되었습니다.');
+        });
+    </script>
+</body>
+</html>
