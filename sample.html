@@ -1,0 +1,26 @@
+<!-- HTML 파일의 <head> 또는 <body> 끝에 추가합니다. -->
+<script src="shakeForm.js"></script>
+
+<!-- 폼을 표시하고 싶은 곳에 아래 코드를 추가합니다. -->
+<shake-form
+  title="문의하기"
+  submit-text="제출하기">
+</shake-form>
+
+<script>
+  const form = document.querySelector('shake-form');
+
+  // 폼에 표시될 필드를 설정합니다.
+  const myFields = [
+    { name: 'name', label: '이름', type: 'text', required: true },
+    { name: 'email', label: '이메일', type: 'email', required: true },
+    { name: 'message', label: '문의 내용', type: 'textarea', required: true }
+  ];
+  form.setFields(myFields);
+
+  // 폼 제출 시 데이터를 받아서 처리합니다.
+  form.addEventListener('formsubmit', (event) => {
+    console.log('제출된 데이터:', event.detail);
+    alert('문의가 접수되었습니다.');
+  });
+</script>
