@@ -23,6 +23,12 @@
 <script src="shakeForm.js"></script>
 ```
 
+또는 CDN을 통해 직접 불러올 수도 있습니다:
+
+```html
+<script src="https://keneslab.github.io/shakeForm/shakeForm.js"></script>
+```
+
 ### 2. 폼 삽입
 
 ```html
